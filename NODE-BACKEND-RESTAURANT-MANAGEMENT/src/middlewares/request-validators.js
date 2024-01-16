@@ -9,6 +9,15 @@ const dishValidationSchema= Joi.object({
     servesPeople: Joi.number().min(1).required(),
 });
 
+const dishSchema = Joi.object({
+    dishName: Joi.string().required(),
+    quantity: Joi.number().integer().min(1).required()
+});
+
+const apiRequestSchema = Joi.object({
+    amountPaid: Joi.number().min(0).required(),
+    orderedDishesArray: Joi.array().items(dishSchema).min(1).required()
+});
 
 const updatedishValidationSchema= Joi.object({
     dishName: Joi.string().required(),
@@ -51,15 +60,6 @@ const validateDishData= (req,res,next)=>{
 
 }
 
-const dishSchema = Joi.object({
-    dishName: Joi.string().required(),
-    quantity: Joi.number().integer().min(1).required()
-});
-
-const apiRequestSchema = Joi.object({
-    amountPaid: Joi.number().min(0).required(),
-    orderedDishesArray: Joi.array().items(dishSchema).min(1).required()
-});
 
 const validatePurchaseApiRequest = (req, res, next) => {
     const { error } = apiRequestSchema.validate(req.body, { abortEarly: false });

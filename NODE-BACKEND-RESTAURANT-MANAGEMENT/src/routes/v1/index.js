@@ -10,16 +10,23 @@ router.post(
     DishController.create
 )
 
+
 router.get(
     '/dish',
     validateAPI.validateAuth,
     DishController.getAll
 )
 
+// router.get(
+//     '/dish/:dishName',
+//     validateAPI.validateAuth,
+//     DishController.getByName
+// )
+
 router.get(
-    '/dish/:dishName',
+    '/dish/:id',
     validateAPI.validateAuth,
-    DishController.getByName
+    DishController.getById
 )
 
 router.delete(

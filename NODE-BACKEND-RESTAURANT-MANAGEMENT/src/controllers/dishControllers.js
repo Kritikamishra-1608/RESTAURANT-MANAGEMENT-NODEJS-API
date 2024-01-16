@@ -1,6 +1,8 @@
 const redis = require('../config/redis');
+
 const DishService= require('../services/dishService');
-const dishService= new DishService();
+
+const dishService= new DishService(); //object
 
 const create= async (req,res)=>{
     try{
@@ -123,6 +125,28 @@ const getByName= async (req,res)=>{
     }
 }
 
+const getById= async (req,res)=>{
+    try{
+        const response= await dishService.getById(req.params.id);
+        console.log(req.params.id);
+        return res.status(200).json({
+            message: "Successfully fetched a dish",
+            data: response,
+            success:true,
+            err: {}
+        })
+    }catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({
+            data:{},
+            message:"Not able to fetch a dish",
+            success: false,
+            err:error
+        });
+    }
+}
+
 const purchase= async (req,res)=>{
     try{
         const {amountPaid, orderedDishesArray}=req.body;
@@ -163,5 +187,6 @@ module.exports={
     getAll,
     update,
     getByName,
-    purchase
+    purchase,
+    getById
 }

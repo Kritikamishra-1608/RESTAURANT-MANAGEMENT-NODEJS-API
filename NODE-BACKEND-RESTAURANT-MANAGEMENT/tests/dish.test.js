@@ -64,7 +64,7 @@ beforeAll(async()=>{
 
     describe('Delete API /api/v1/Dish/:dishName', () => {
       it('Delete the dish and return it as response', async () => {
-        const res = await request(app).delete("/api/v1/dish/demodish1")
+        const res = await request(app).delete("/api/v1/dish/demodish2")
         .set({"auth":"kritikasSecretKey"})
           expect(res.statusCode).toBe(200);
           expect(res.body.message).toBe("Successfully removed a dish");
@@ -85,7 +85,7 @@ beforeAll(async()=>{
     describe('PUT- update dish api /api/v1/dish', () => {
       it('should return a success message and updated dish', async () => {
         const requestBody = {
-          dishName: 'FiredRice',
+          dishName: 'Pizza',
           quantity: 1,
           price: 550
         };
@@ -95,7 +95,7 @@ beforeAll(async()=>{
         expect(response.statusCode).toBe(200);
         expect(response._body.success).toBe(true);
         expect(response._body.message).toBe('Successfully updated a dish');
-        expect(response._body.data.dishName).toBe('FiredRice');
+        expect(response._body.data.dishName).toBe('Pizza');
         expect(response._body.data.availableQuantity).toBeGreaterThan(1);
       });
 
@@ -140,7 +140,7 @@ beforeAll(async()=>{
         const res= await request(app).post('/api/v1/dish')
         .set({"auth":"kritikasSecretKey"})
         .send({
-          "dishName": "new dish2",
+          "dishName": "new dish7",
           "availableQuantity": "12",
           "pricePerItem": "5500",
           "servesPeople": "5",
@@ -149,7 +149,7 @@ beforeAll(async()=>{
 
         expect(res.statusCode).toBe(201);
         expect(res.body.message).toBe("Successfully added a new dish");
-        expect(res.body.data.dishName).toBe("new dish2")
+        expect(res.body.data.dishName).toBe("new dish7")
         expect(res.body.data.dishType).toBe("dessert")
         expect(res.body.data.availableQuantity).toBe(12)
         expect(res.body.data.servesPeople).toBe(5)
