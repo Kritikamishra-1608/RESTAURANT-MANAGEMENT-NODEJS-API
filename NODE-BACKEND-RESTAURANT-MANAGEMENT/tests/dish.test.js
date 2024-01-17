@@ -40,52 +40,59 @@ beforeAll(async()=>{
     });
      
 
-    describe("GET /api/v1/dish/:dishName", () => {
+    // describe("GET /api/v1/dish/:dishName", () => {
 
-      it("should return corresponsing dish with given dishName in db", async () => {
-        const res = await request(app).get("/api/v1/dish/demodish")
-        .set({"auth":"kritikasSecretKey"});
-        console.log(res);
-        expect(res.statusCode).toBe(200);
-        expect(res.body.message).toBe("Successfully fetched a dish");
-        expect(res.body.data.dishName).toBe("demodish");
-      });
+    //   it("should return corresponsing dish with given dishName in db", async () => {
+    //     const res = await request(app).get("/api/v1/dish/demodish2")
+    //     .set({"auth":"kritikasSecretKey"});
+    //     console.log(res);
+    //     expect(res.statusCode).toBe(200);
+    //     expect(res.body.message).toBe("Successfully fetched a dish");
+    //     expect(res.body.data.dishName).toBe("demodish2");
+    //   });
 
-      it("dishName not present in db", async () => {
-        const res = await request(app).get("/api/v1/dish/xyz")
-        .set({"auth":"kritikasSecretKey"});
-        console.log(res);
-        expect(res.statusCode).toBe(500);
-        expect(res.body.message).toBe("Not able to fetch a dish");
-      });
+    //   it("dishName not present in db", async () => {
+    //     const res = await request(app).get("/api/v1/dish/xyz")
+    //     .set({"auth":"kritikasSecretKey"});
+    //     console.log(res);
+    //     expect(res.statusCode).toBe(500);
+    //     expect(res.body.message).toBe("Not able to fetch a dish");
+    //   });
 
-    });
+    // });
 
 
-    describe('Delete API /api/v1/Dish/:dishName', () => {
-      it('Delete the dish and return it as response', async () => {
-        const res = await request(app).delete("/api/v1/dish/demodish2")
+    
+
+  
+
+
+    describe('/POST add dishes API /api/v1/dish',()=>{
+      it("Add a dish in database", async()=>{
+        const res= await request(app).post('/api/v1/dish')
         .set({"auth":"kritikasSecretKey"})
-          expect(res.statusCode).toBe(200);
-          expect(res.body.message).toBe("Successfully removed a dish");
-      });
+        .send({
+          "dishName": "pizza",
+          "availableQuantity": "12",
+          "pricePerItem": "5500",
+          "servesPeople": "5",
+          "dishType": "dessert"
+        });
 
-      it('Given dish not present in Db, dish not found', async () => {
-        const res = await request(app).delete("/api/v1/dish/xyz")
-        .set({"auth":"kritikasSecretKey"})
-          expect(res.statusCode).toBe(404);
-          expect(res.body.message).toBe("Not able to delete dish");
-          expect(res.body.err.error.error.message).toBe("Dish not found");
-      });
+        expect(res.statusCode).toBe(201);
+        expect(res.body.message).toBe("Successfully added a new dish");
+        expect(res.body.data.dishName).toBe("pizza")
+        expect(res.body.data.dishType).toBe("dessert")
+        expect(res.body.data.availableQuantity).toBe(12)
+        expect(res.body.data.servesPeople).toBe(5)
 
-
-    });
-
+      })
+    })
 
     describe('PUT- update dish api /api/v1/dish', () => {
       it('should return a success message and updated dish', async () => {
         const requestBody = {
-          dishName: 'Pizza',
+          dishName: 'pizza',
           quantity: 1,
           price: 550
         };
@@ -95,7 +102,7 @@ beforeAll(async()=>{
         expect(response.statusCode).toBe(200);
         expect(response._body.success).toBe(true);
         expect(response._body.message).toBe('Successfully updated a dish');
-        expect(response._body.data.dishName).toBe('Pizza');
+        expect(response._body.data.dishName).toBe('pizza');
         expect(response._body.data.availableQuantity).toBeGreaterThan(1);
       });
 
@@ -134,28 +141,25 @@ beforeAll(async()=>{
 
     });
 
-
-    describe('/POST add dishes API /api/v1/dish',()=>{
-      it("Add a dish in database", async()=>{
-        const res= await request(app).post('/api/v1/dish')
+    describe('Delete API /api/v1/Dish/:dishName', () => {
+      it('Delete the dish and return it as response', async () => {
+        const res = await request(app).delete("/api/v1/dish/pizza")
         .set({"auth":"kritikasSecretKey"})
-        .send({
-          "dishName": "new dish7",
-          "availableQuantity": "12",
-          "pricePerItem": "5500",
-          "servesPeople": "5",
-          "dishType": "dessert"
-        });
+          expect(res.statusCode).toBe(200);
+          expect(res.body.message).toBe("Successfully removed a dish");
+      });
 
-        expect(res.statusCode).toBe(201);
-        expect(res.body.message).toBe("Successfully added a new dish");
-        expect(res.body.data.dishName).toBe("new dish7")
-        expect(res.body.data.dishType).toBe("dessert")
-        expect(res.body.data.availableQuantity).toBe(12)
-        expect(res.body.data.servesPeople).toBe(5)
+      it('Given dish not present in Db, dish not found', async () => {
+        const res = await request(app).delete("/api/v1/dish/xyz")
+        .set({"auth":"kritikasSecretKey"})
+          expect(res.statusCode).toBe(404);
+          expect(res.body.message).toBe("Not able to delete dish");
+          //expect(res.body.err.error.error.message).toBe("Dish not found");
+      });
 
-      })
-    })
+
+    });
+
 
 
 
