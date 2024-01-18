@@ -6,7 +6,7 @@ Welcome to the Restaurant Management API. This application allows customers to p
 
 Before you begin, ensure you have met the following requirements first clone the project and then :
 
-### Install the project dependencies and to run the api locally, execute the following command in the project directory 
+### Install the project dependencies and to run the api locally, execute the following commands in the project directory 
 ```
   npm install
   npm start
